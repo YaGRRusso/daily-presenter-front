@@ -1,6 +1,7 @@
 import { SentimentDissatisfied } from "@mui/icons-material"
-import { Button } from "@mui/material"
+import { Button, useColorScheme } from "@mui/material"
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router"
+import { useEffect } from "react"
 
 import { Title } from "@/components/title"
 
@@ -22,5 +23,15 @@ function PageNotFound() {
 }
 
 export default function RootLayout() {
+  const { mode } = useColorScheme()
+
+  useEffect(() => {
+    if (mode === "light") {
+      document.documentElement.classList.remove("dark")
+    } else {
+      document.documentElement.classList.add("dark")
+    }
+  }, [mode])
+
   return <Outlet />
 }
