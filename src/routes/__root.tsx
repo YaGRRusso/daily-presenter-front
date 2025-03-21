@@ -1,7 +1,5 @@
-import { SentimentDissatisfied } from "@mui/icons-material"
-import { Button, useColorScheme } from "@mui/material"
+import { SmileySad } from "@phosphor-icons/react"
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router"
-import { useEffect } from "react"
 
 import { Title } from "@/components/title"
 
@@ -13,25 +11,15 @@ export const Route = createRootRoute({
 function PageNotFound() {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-32">
-      <SentimentDissatisfied sx={{ fontSize: 64 }} />
+      <SmileySad />
       <Title>Not Found</Title>
-      <Button variant="outlined" color="inherit">
+      <button className="btn">
         <Link to="/">Go to Home</Link>
-      </Button>
+      </button>
     </div>
   )
 }
 
 export default function RootLayout() {
-  const { mode } = useColorScheme()
-
-  useEffect(() => {
-    if (mode === "light") {
-      document.documentElement.classList.remove("dark")
-    } else {
-      document.documentElement.classList.add("dark")
-    }
-  }, [mode])
-
   return <Outlet />
 }
