@@ -1,8 +1,9 @@
 import { Add, DarkMode, LightMode, Remove } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import { Button, IconButton } from "@mui/material"
 import { useColorScheme } from "@mui/material/styles"
 import { createFileRoute } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 import { Title } from "@/components/title"
 
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/")({
 })
 
 function RouteComponent() {
+  const { t, i18n } = useTranslation()
   const { setMode } = useColorScheme()
   const [state, setState] = useState(0)
 
@@ -28,7 +30,7 @@ function RouteComponent() {
           <LightMode />
         </IconButton>
       </div>
-      <Title>Hello World</Title>
+      <Title>{t("hello")}</Title>
       <div className="flex items-center gap-2">
         <IconButton size="small" onClick={() => setState((old) => old - 1)}>
           <Remove />
@@ -44,6 +46,14 @@ function RouteComponent() {
         <div className="rounded bg-error px-4 py-2 text-error-foreground">error</div>
         <div className="rounded bg-warning px-4 py-2 text-warning-foreground">warning</div>
         <div className="rounded bg-success px-4 py-2 text-success-foreground">success</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button size="small" variant="outlined" onClick={() => i18n.changeLanguage("pt")}>
+          Português (PT)
+        </Button>
+        <Button size="small" variant="outlined" onClick={() => i18n.changeLanguage("en")}>
+          English (EN)
+        </Button>
       </div>
     </div>
   )

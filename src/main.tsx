@@ -2,10 +2,20 @@
 import { routeTree } from "./routeTree.gen"
 
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import "./styles/global.css"
+import "./i18n"
+
+// Create a theme with dark and light color schemes
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+    light: true,
+  },
+})
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -17,11 +27,17 @@ declare module "@tanstack/react-router" {
   }
 }
 
-// Create a theme with dark and light color schemes
-const theme = createTheme({
-  colorSchemes: {
-    dark: true,
-    light: true,
+// Create a new query client instance
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5min
+      retryDelay: 1000 * 60, // 1min
+    },
+    mutations: {
+      retryDelay: 1000 * 60, // 1min
+    },
   },
 })
 
@@ -32,7 +48,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={client}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </ThemeProvider>
     </StrictMode>,
   )
